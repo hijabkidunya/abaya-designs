@@ -45,11 +45,10 @@ export default function CartPage() {
         dispatch(clearCartAsync())
     }
 
-    // Delivery charges: free if total >= 10000, else 300
-    const shippingCost = total >= 10000 ? 0 : 300
-    // Removed COD charge logic
+    // COD charge: mandatory 400 Rupees for all orders
+    const codCharge = 400
     // Final total
-    const finalTotal = total + shippingCost
+    const finalTotal = total + codCharge
 
     if (loading && !loaded) {
         return (
@@ -193,13 +192,9 @@ export default function CartPage() {
                             </div>
 
                             <div className="flex justify-between">
-                                <span>Delivery Charges</span>
-                                <span>
-                                    {shippingCost === 0 ? <span className="text-green-600">Free</span> : formatPrice(shippingCost)}
-                                </span>
+                                <span>COD Charges</span>
+                                <span>{formatPrice(codCharge)}</span>
                             </div>
-
-                            {/* Removed Payment Method Selection and COD Charge UI */}
 
                             <Separator />
 
@@ -208,11 +203,9 @@ export default function CartPage() {
                                 <span>{formatPrice(finalTotal)}</span>
                             </div>
 
-                            {total < 10000 && (
-                                <div className="text-sm text-muted-foreground bg-muted p-3 rounded">
-                                    Add {formatPrice(10000 - total)} more for free shipping!
-                                </div>
-                            )}
+                            <div className="text-sm text-muted-foreground bg-muted p-3 rounded">
+                                Cash on Delivery (COD) charges apply to all orders
+                            </div>
 
                             <Button className="w-full" size="lg" asChild>
                                 <Link href="/checkout">Proceed to Checkout</Link>

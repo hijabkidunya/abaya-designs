@@ -146,9 +146,8 @@ export default function CheckoutPage() {
   ]
 
   // Pricing logic
-  const shippingCost = total >= 10000 ? 0 : 300;
-  const codCharge = form.paymentMethod === "cod" ? 200 : 0;
-  const finalTotal = total + shippingCost + codCharge;
+  const codCharge = 400; // Mandatory COD charge for all orders
+  const finalTotal = total + codCharge;
 
   return (
     items.length === 0 ? null : (
@@ -560,23 +559,16 @@ export default function CheckoutPage() {
                     <span>{formatPrice(total)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Shipping</span>
-                    <span>
-                      {shippingCost === 0 ? <span className="text-green-600">Free</span> : `${formatPrice(shippingCost)}`}
-                    </span>
+                    <span>COD Charges</span>
+                    <span>{formatPrice(codCharge)}</span>
                   </div>
-                  {/* COD Charge */}
-                  {form.paymentMethod === "cod" && (
-                    <div className="flex justify-between">
-                      <span>COD Charges</span>
-                      <span>{formatPrice(codCharge)}</span>
-                    </div>
-                  )}
-                  {/* Removed Tax */}
                   <Separator />
                   <div className="flex justify-between font-semibold text-lg">
                     <span>Total</span>
                     <span>{formatPrice(finalTotal)}</span>
+                  </div>
+                  <div className="text-sm text-muted-foreground bg-muted p-3 rounded">
+                    Cash on Delivery (COD) charges apply to all orders
                   </div>
                 </div>
               </CardContent>
