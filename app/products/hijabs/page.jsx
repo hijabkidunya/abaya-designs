@@ -1,8 +1,28 @@
+// HIJABS PAGE - DISABLED - REPLACED WITH MAXI DRESSES
+// This page is kept for reference but disabled
+
+export default function HijabsPage() {
+    return (
+        <div className="container mx-auto px-4 py-10">
+            <div className="text-center">
+                <h1 className="text-3xl font-bold mb-4">Hijabs Page</h1>
+                <p className="text-muted-foreground mb-8">This page has been replaced with Maxi Dresses.</p>
+                <a href="/products/maxi-dresses" className="text-primary hover:underline">
+                    Go to Maxi Dresses →
+                </a>
+            </div>
+        </div>
+    )
+}
+
+// Original hijabs page content (commented out for reference):
+/*
 "use client"
 
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { fetchProducts } from "@/lib/features/productsSlice"
+import ProductCard from "@/components/ui/ProductCard"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -11,21 +31,22 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Slider } from "@/components/ui/slider"
-import ProductCard from "@/components/ui/ProductCard"
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext } from "@/components/ui/pagination"
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext, PaginationEllipsis } from "@/components/ui/pagination"
 import { Filter, Search, X } from "lucide-react"
-import { formatPrice } from "@/lib/utils"
 
-const colors = ["Black", "Navy", "White", "Rose Gold", "Blue", "Green", "Pink", "Brown", "Gray", "Silver", "Gold", "Pearl", "Cream", "Beige"]
+const categories = ["hijabs"]
+const colors = [
+    "Black", "Navy", "White", "Rose Gold", "Blue", "Green", "Pink", "Brown", "Gray", "Silver", "Gold", "Pearl", "Cream", "Beige"
+]
 const sizes = ["XS", "S", "M", "L", "XL", "XXL", "One Size"]
 
 export default function HijabsPage() {
     const dispatch = useDispatch()
-    const { items: products, loading, error, page, totalPages, total, limit } = useSelector((state) => state.products)
+    const { items: products, loading, error, total, page, totalPages, limit } = useSelector((state) => state.products)
     const [filters, setFilters] = useState({
-        category: "hijabs",
+        category: ["hijabs"], // now an array for multi-select
         search: "",
-        priceRange: [0, 15000],
+        priceRange: [0, 50000],
         colors: [],
         sizes: [],
         sortBy: "createdAt",
@@ -36,23 +57,16 @@ export default function HijabsPage() {
     const [showFilters, setShowFilters] = useState(false)
 
     useEffect(() => {
-        dispatch(fetchProducts({
-            category: filters.category,
-            search: filters.search,
-            minPrice: filters.priceRange[0],
-            maxPrice: filters.priceRange[1],
-            colors: filters.colors,
-            sizes: filters.sizes,
-            sortBy: filters.sortBy,
-            sortOrder: filters.sortOrder,
-            page: filters.page,
-            limit: filters.limit,
-        }))
+        // Only send category if not empty
+        const fetchOptions = { ...filters }
+        if (!filters.category.length) delete fetchOptions.category
+        dispatch(fetchProducts(fetchOptions))
     }, [dispatch, filters])
 
     const handleFilterChange = (key, value) => {
         setFilters((prev) => ({ ...prev, [key]: value, page: 1 }))
     }
+
     const handleArrayFilterChange = (key, value, checked) => {
         setFilters((prev) => ({
             ...prev,
@@ -60,11 +74,21 @@ export default function HijabsPage() {
             page: 1,
         }))
     }
+
+    // New: handle multi-select for category
+    const handleCategoryChange = (category, checked) => {
+        setFilters((prev) => ({
+            ...prev,
+            category: checked ? [...prev.category, category] : prev.category.filter((c) => c !== category),
+            page: 1,
+        }))
+    }
+
     const clearFilters = () => {
         setFilters({
-            category: "hijabs",
+            category: ["hijabs"],
             search: "",
-            priceRange: [0, 15000],
+            priceRange: [0, 50000],
             colors: [],
             sizes: [],
             sortBy: "createdAt",
@@ -73,15 +97,14 @@ export default function HijabsPage() {
             limit: 12,
         })
     }
+
     const handlePageChange = (newPage) => {
         setFilters((prev) => ({ ...prev, page: newPage }))
     }
+
     return (
         <main className="container mx-auto px-4 py-10">
-            {/* <h1 className="text-3xl font-bold mb-4">Hijabs</h1>
-            <p className="mb-8 text-gray-600">Explore our premium hijab collection for every occasion.</p> */}
             <div className="flex flex-col lg:flex-row gap-8">
-                {/* Filters Sidebar */}
                 <div className={`lg:w-80 ${showFilters ? "block fixed inset-0 z-50 bg-background/95 backdrop-blur-sm p-4 overflow-y-auto lg:static lg:p-0 lg:bg-transparent lg:backdrop-blur-none lg:z-auto" : "hidden lg:block"}`}>
                     <div className="lg:sticky lg:top-36">
                         <div className="flex items-center justify-between mb-4 lg:hidden">
@@ -100,36 +123,50 @@ export default function HijabsPage() {
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-6">
-                                {/* Search */}
                                 <div>
                                     <Label htmlFor="search">Search</Label>
                                     <div className="relative mt-2">
                                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                         <Input
                                             id="search"
-                                            placeholder="Search hijabs..."
+                                            placeholder="Search products..."
                                             value={filters.search}
                                             onChange={(e) => handleFilterChange("search", e.target.value)}
                                             className="pl-10"
                                         />
                                     </div>
                                 </div>
-                                {/* Price Range */}
+                                <div>
+                                    <Label>Category</Label>
+                                    <div className="mt-2 space-y-2">
+                                        {categories.map((category) => (
+                                            <div key={category} className="flex items-center space-x-2">
+                                                <Checkbox
+                                                    id={category}
+                                                    checked={filters.category.includes(category)}
+                                                    onCheckedChange={(checked) => handleCategoryChange(category, checked)}
+                                                />
+                                                <Label htmlFor={category} className="capitalize">
+                                                    {category}
+                                                </Label>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
                                 <div>
                                     <Label>
-                                        Price Range: {formatPrice(filters.priceRange[0])} - {formatPrice(filters.priceRange[1])}
+                                        Price Range: ₨{filters.priceRange[0].toLocaleString("en-PK")} - ₨{filters.priceRange[1].toLocaleString("en-PK")}
                                     </Label>
                                     <div className="mt-2">
                                         <Slider
                                             value={filters.priceRange}
                                             onValueChange={(value) => handleFilterChange("priceRange", value)}
-                                            max={15000}
+                                            max={50000}
                                             step={5}
                                             className="w-full"
                                         />
                                     </div>
                                 </div>
-                                {/* Colors */}
                                 <div>
                                     <Label>Colors</Label>
                                     <div className="mt-2 grid grid-cols-2 gap-2">
@@ -147,7 +184,6 @@ export default function HijabsPage() {
                                         ))}
                                     </div>
                                 </div>
-                                {/* Sizes */}
                                 <div>
                                     <Label>Sizes</Label>
                                     <div className="mt-2 grid grid-cols-3 gap-2">
@@ -174,14 +210,12 @@ export default function HijabsPage() {
                         </Card>
                     </div>
                 </div>
-                {/* Products Grid */}
                 <div className="flex-1">
-                    {/* Header */}
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                         <div>
                             <h1 className="text-2xl font-bold">Hijabs</h1>
                             <p className="text-muted-foreground">
-                                Showing {products.length} of {total} hijabs
+                                Showing {products.length} of {total} products
                             </p>
                         </div>
                         <div className="flex flex-wrap items-center gap-2 sm:gap-4">
@@ -213,9 +247,14 @@ export default function HijabsPage() {
                             </div>
                         </div>
                     </div>
-                    {/* Active Filters */}
-                    {(filters.search || filters.colors.length > 0 || filters.sizes.length > 0) && (
+                    {(filters.category.length > 0 || filters.search || filters.colors.length > 0 || filters.sizes.length > 0) && (
                         <div className="flex flex-wrap gap-2 mb-6">
+                            {filters.category.length > 0 && filters.category.map((cat) => (
+                                <Badge key={cat} variant="secondary" className="flex items-center gap-1">
+                                    Category: {cat}
+                                    <X className="h-3 w-3 cursor-pointer" onClick={() => handleCategoryChange(cat, false)} />
+                                </Badge>
+                            ))}
                             {filters.search && (
                                 <Badge variant="secondary" className="flex items-center gap-1">
                                     Search: {filters.search}
@@ -239,7 +278,6 @@ export default function HijabsPage() {
                             ))}
                         </div>
                     )}
-                    {/* Products Grid */}
                     {loading ? (
                         <div className="flex justify-center items-center min-h-[200px]">Loading...</div>
                     ) : error ? (
@@ -282,7 +320,7 @@ export default function HijabsPage() {
                         </>
                     ) : (
                         <div className="text-center py-12">
-                            <p className="text-muted-foreground mb-4">No hijabs found matching your criteria.</p>
+                            <p className="text-muted-foreground mb-4">No products found matching your criteria.</p>
                             <Button onClick={clearFilters}>Clear Filters</Button>
                         </div>
                     )}
@@ -290,4 +328,5 @@ export default function HijabsPage() {
             </div>
         </main>
     )
-} 
+}
+*/ 

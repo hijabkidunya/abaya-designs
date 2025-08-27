@@ -108,6 +108,15 @@ export async function POST(request) {
                 }
             }
         }
+
+        // Validate category
+        const validCategories = ["abayas", "maxi-dresses"]
+        if (!data.category || !validCategories.includes(data.category)) {
+            return Response.json({
+                error: `Invalid category. Must be one of: ${validCategories.join(", ")}`
+            }, { status: 400 })
+        }
+
         if (!images.length) {
             return Response.json({ error: "At least one image is required." }, { status: 400 })
         }
@@ -174,6 +183,17 @@ export async function PUT(request) {
                 }
             }
         }
+
+        // Validate category if it's being updated
+        if (updates.category) {
+            const validCategories = ["abayas", "maxi-dresses"]
+            if (!validCategories.includes(updates.category)) {
+                return Response.json({
+                    error: `Invalid category. Must be one of: ${validCategories.join(", ")}`
+                }, { status: 400 })
+            }
+        }
+
         if (images.length) updates.images = images
         // Parse/convert new fields
         if (typeof updates.colors === "string") {

@@ -8,14 +8,9 @@ const banners = [
         subtitle: "Discover our collection of elegant and modest abayas.",
     },
     {
-        image: "https://chowdhurydresses.com/cdn/shop/files/Hijabs_banner.jpg?v=1734308768&width=3200",
-        title: "Premium Hijabs",
-        subtitle: "Premium quality hijabs in a variety of styles and colors.",
-    },
-    {
         image: "https://www.sadabahar.com.pk/cdn/shop/files/Banners_2_1.png?v=1745175203&width=3840",
-        title: "Modest Clothing",
-        subtitle: "Fashion-forward modest clothing for the modern woman.",
+        title: "Premium Maxi Dresses",
+        subtitle: "Fashion-forward modest Maxies for the modern woman.",
     },
 ]
 

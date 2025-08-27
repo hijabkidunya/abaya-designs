@@ -97,9 +97,7 @@ export default function Header() {
     const categories = [
         { name: "Products", href: "/products" },
         { name: "Abayas", href: "/products?category=abayas" },
-        { name: "Hijabs", href: "/products?category=hijabs" },
-        { name: "Clothing", href: "/products?category=clothing" },
-        { name: "Accessories", href: "/products?category=accessories" },
+        { name: "Maxi Dresses", href: "/products?category=maxi-dresses" },
     ]
 
     const categoryDropdowns = {
@@ -111,27 +109,14 @@ export default function Header() {
             { name: "Maxi Abayas", href: "/products?category=abayas&type=maxi" },
             { name: "Plus Size Abayas", href: "/products?category=abayas&type=plus-size" },
         ],
-        Hijabs: [
-            { name: "All Hijabs", href: "/products/hijabs", isSection: true },
-            { name: "Silk Hijabs", href: "/products?category=hijabs&type=silk" },
-            { name: "Chiffon Hijabs", href: "/products?category=hijabs&type=chiffon" },
-            { name: "Jersey Hijabs", href: "/products?category=hijabs&type=jersey" },
-            { name: "Printed Hijabs", href: "/products?category=hijabs&type=printed" },
-            { name: "Underscarves", href: "/products?category=hijabs&type=underscarf" },
-        ],
-        Clothing: [
-            { name: "All Clothing", href: "/products/clothing", isSection: true },
-            { name: "Maxi Dresses", href: "/products?category=clothing&type=maxi-dress" },
-            { name: "Tunics & Tops", href: "/products?category=clothing&type=tunic" },
-            { name: "Skirts & Pants", href: "/products?category=clothing&type=skirt-pants" },
-            { name: "Modest Sets", href: "/products?category=clothing&type=set" },
-        ],
-        Accessories: [
-            { name: "All Accessories", href: "/products/accessories", isSection: true },
-            { name: "Brooches & Pins", href: "/products?category=accessories&type=brooch" },
-            { name: "Bags & Purses", href: "/products?category=accessories&type=bag" },
-            { name: "Jewelry", href: "/products?category=accessories&type=jewelry" },
-            { name: "Belts & Scarves", href: "/products?category=accessories&type=belt-scarf" },
+        "Maxi Dresses": [
+            { name: "All Maxi Dresses", href: "/products/maxi-dresses", isSection: true },
+            { name: "Floral Maxi Dresses", href: "/products?category=maxi-dresses&type=floral" },
+            { name: "Solid Maxi Dresses", href: "/products?category=maxi-dresses&type=solid" },
+            { name: "Embroidered Maxi Dresses", href: "/products?category=maxi-dresses&type=embroidered" },
+            { name: "Casual Maxi Dresses", href: "/products?category=maxi-dresses&type=casual" },
+            { name: "Formal Maxi Dresses", href: "/products?category=maxi-dresses&type=formal" },
+            { name: "Plus Size Maxi Dresses", href: "/products?category=maxi-dresses&type=plus-size" },
         ],
     }
 

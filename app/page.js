@@ -1,7 +1,7 @@
 import CategoriesSection from "@/components/home/CategoriesSection"
 import HeroSection from "@/components/home/HeroSection"
 import FeaturesSection from "@/components/home/FeaturesSection"
-import InstagramSection from "@/components/home/InstagramSection"
+import SocialMediaSection from "@/components/home/SocialMediaSection"
 import TrendingProductsSection from "@/components/home/TrendingProductsSection"
 import FeaturedProductsSection from "@/components/home/FeaturedProductsSection"
 import NewArrivalsSection from "@/components/home/NewArrivalsSection"
@@ -20,26 +20,34 @@ async function fetchCategories() {
       value: "abayas",
     },
     {
-      name: "Hijabs",
-      description: "Premium quality hijabs in various styles",
-      image: "/images/hijabs.jpg",
-      href: "/products/hijabs",
-      value: "hijabs",
+      name: "Maxi Dresses",
+      description: "Beautiful and elegant maxi dresses",
+      image: "/images/maxi-dresses.jpg",
+      href: "/products/maxi-dresses",
+      value: "maxi-dresses",
     },
-    {
-      name: "Clothing",
-      description: "Modest fashion for the modern woman",
-      image: "/images/clothing.jpg",
-      href: "/products/clothing",
-      value: "clothing",
-    },
-    {
-      name: "Accessories",
-      description: "Complete your look with our accessories",
-      image: "/images/accessories.jpg",
-      href: "/products/accessories",
-      value: "accessories",
-    },
+    // Commented out old categories - keeping for reference
+    // {
+    //   name: "Hijabs",
+    //   description: "Premium quality hijabs in various styles",
+    //   image: "/images/hijabs.jpg",
+    //   href: "/products/hijabs",
+    //   value: "hijabs",
+    // },
+    // {
+    //   name: "Clothing",
+    //   description: "Modest fashion for the modern woman",
+    //   image: "/images/clothing.jpg",
+    //   href: "/products/clothing",
+    //   value: "clothing",
+    // },
+    // {
+    //   name: "Accessories",
+    //   description: "Complete your look with our accessories",
+    //   image: "/images/accessories.jpg",
+    //   href: "/products/accessories",
+    //   value: "accessories",
+    // },
   ]
 }
 
@@ -73,7 +81,7 @@ export default async function HomePage() {
       <AllProductsSection />
       <FeaturesSection />
       <TestimonialsSection />
-      <InstagramSection />
+      <SocialMediaSection />
     </div>
   )
 }

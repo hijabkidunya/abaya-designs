@@ -80,7 +80,7 @@ export default function ProductModal({ open, onOpenChange, onSubmit, initialData
     const [form, setForm] = useState({
         name: "",
         description: "",
-        category: "abayas",
+        category: "maxi-dresses",
         price: "",
         originalPrice: "",
         inStock: true,
@@ -105,7 +105,7 @@ export default function ProductModal({ open, onOpenChange, onSubmit, initialData
             setForm({
                 name: initialData.name ?? "",
                 description: initialData.description ?? "",
-                category: initialData.category ?? "abayas",
+                category: initialData.category ?? "maxi-dresses",
                 price: initialData.price ?? "",
                 originalPrice: initialData.originalPrice ?? "",
                 inStock: initialData.inStock === true,
@@ -125,7 +125,7 @@ export default function ProductModal({ open, onOpenChange, onSubmit, initialData
             setForm({
                 name: "",
                 description: "",
-                category: "abayas",
+                category: "maxi-dresses",
                 price: "",
                 originalPrice: "",
                 inStock: true,
@@ -256,9 +256,7 @@ export default function ProductModal({ open, onOpenChange, onSubmit, initialData
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="abayas">Abayas</SelectItem>
-                                    <SelectItem value="hijabs">Hijabs</SelectItem>
-                                    <SelectItem value="clothing">Clothing</SelectItem>
-                                    <SelectItem value="accessories">Accessories</SelectItem>
+                                    <SelectItem value="maxi-dresses">Maxi Dresses</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>

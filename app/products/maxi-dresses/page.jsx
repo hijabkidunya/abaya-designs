@@ -15,17 +15,17 @@ import { Slider } from "@/components/ui/slider"
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext, PaginationEllipsis } from "@/components/ui/pagination"
 import { Filter, Search, X } from "lucide-react"
 
-const categories = ["abayas", "maxi-dresses"]
+const categories = ["maxi-dresses"]
 const colors = [
     "Black", "Navy", "White", "Rose Gold", "Blue", "Green", "Pink", "Brown", "Gray", "Silver", "Gold", "Pearl", "Cream", "Beige"
 ]
 const sizes = ["XS", "S", "M", "L", "XL", "XXL", "One Size"]
 
-export default function ProductsPage() {
+export default function MaxiDressesPage() {
     const dispatch = useDispatch()
     const { items: products, loading, error, total, page, totalPages, limit } = useSelector((state) => state.products)
     const [filters, setFilters] = useState({
-        category: [], // now an array for multi-select
+        category: ["maxi-dresses"], // now an array for multi-select
         search: "",
         priceRange: [0, 50000],
         colors: [],
@@ -67,7 +67,7 @@ export default function ProductsPage() {
 
     const clearFilters = () => {
         setFilters({
-            category: [],
+            category: ["maxi-dresses"],
             search: "",
             priceRange: [0, 50000],
             colors: [],
@@ -85,10 +85,7 @@ export default function ProductsPage() {
 
     return (
         <main className="container mx-auto px-4 py-10">
-            {/* <h1 className="text-3xl font-bold mb-4">All Products</h1>
-            <p className="mb-8 text-gray-600">Browse our complete collection of products. Use the filters to refine your search.</p> */}
             <div className="flex flex-col lg:flex-row gap-8">
-                {/* Filters Sidebar */}
                 <div className={`lg:w-80 ${showFilters ? "block fixed inset-0 z-50 bg-background/95 backdrop-blur-sm p-4 overflow-y-auto lg:static lg:p-0 lg:bg-transparent lg:backdrop-blur-none lg:z-auto" : "hidden lg:block"}`}>
                     <div className="lg:sticky lg:top-36">
                         <div className="flex items-center justify-between mb-4 lg:hidden">
@@ -107,21 +104,19 @@ export default function ProductsPage() {
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-6">
-                                {/* Search */}
                                 <div>
                                     <Label htmlFor="search">Search</Label>
                                     <div className="relative mt-2">
                                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                         <Input
                                             id="search"
-                                            placeholder="Search products..."
+                                            placeholder="Search maxi dresses..."
                                             value={filters.search}
                                             onChange={(e) => handleFilterChange("search", e.target.value)}
                                             className="pl-10"
                                         />
                                     </div>
                                 </div>
-                                {/* Category */}
                                 <div>
                                     <Label>Category</Label>
                                     <div className="mt-2 space-y-2">
@@ -139,7 +134,6 @@ export default function ProductsPage() {
                                         ))}
                                     </div>
                                 </div>
-                                {/* Price Range */}
                                 <div>
                                     <Label>
                                         Price Range: ₨{filters.priceRange[0].toLocaleString("en-PK")} - ₨{filters.priceRange[1].toLocaleString("en-PK")}
@@ -154,7 +148,6 @@ export default function ProductsPage() {
                                         />
                                     </div>
                                 </div>
-                                {/* Colors */}
                                 <div>
                                     <Label>Colors</Label>
                                     <div className="mt-2 grid grid-cols-2 gap-2">
@@ -172,7 +165,6 @@ export default function ProductsPage() {
                                         ))}
                                     </div>
                                 </div>
-                                {/* Sizes */}
                                 <div>
                                     <Label>Sizes</Label>
                                     <div className="mt-2 grid grid-cols-3 gap-2">
@@ -199,14 +191,12 @@ export default function ProductsPage() {
                         </Card>
                     </div>
                 </div>
-                {/* Products Grid */}
                 <div className="flex-1">
-                    {/* Header */}
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                         <div>
-                            <h1 className="text-2xl font-bold">Products</h1>
+                            <h1 className="text-2xl font-bold">Maxi Dresses</h1>
                             <p className="text-muted-foreground">
-                                Showing {products.length} of {total} products
+                                Showing {products.length} of {total} maxi dresses
                             </p>
                         </div>
                         <div className="flex flex-wrap items-center gap-2 sm:gap-4">
@@ -238,7 +228,6 @@ export default function ProductsPage() {
                             </div>
                         </div>
                     </div>
-                    {/* Active Filters */}
                     {(filters.category.length > 0 || filters.search || filters.colors.length > 0 || filters.sizes.length > 0) && (
                         <div className="flex flex-wrap gap-2 mb-6">
                             {filters.category.length > 0 && filters.category.map((cat) => (
@@ -270,7 +259,6 @@ export default function ProductsPage() {
                             ))}
                         </div>
                     )}
-                    {/* Products Grid */}
                     {loading ? (
                         <div className="flex justify-center items-center min-h-[200px]">Loading...</div>
                     ) : error ? (
@@ -313,7 +301,7 @@ export default function ProductsPage() {
                         </>
                     ) : (
                         <div className="text-center py-12">
-                            <p className="text-muted-foreground mb-4">No products found matching your criteria.</p>
+                            <p className="text-muted-foreground mb-4">No maxi dresses found matching your criteria.</p>
                             <Button onClick={clearFilters}>Clear Filters</Button>
                         </div>
                     )}

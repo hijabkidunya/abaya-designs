@@ -90,7 +90,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center space-x-2 text-muted-foreground">
                 <MapPin className="h-4 w-4" />
-                <span>Faisal Cloth Shaheed Chowk, Kotli, Azad Kashmir</span>
+                <span>Purina Hatiya Bazaar Metro Wali Gali, Printing Street Sector C 1, Mirpur Azad Kashmir</span>
               </div>
             </div>
           </div>
