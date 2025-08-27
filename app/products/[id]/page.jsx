@@ -623,7 +623,6 @@ export default function ProductDetailPage() {
                                                 <ul className="space-y-2 text-sm text-green-700 dark:text-green-300">
                                                     <li>• <strong>Standard Delivery:</strong> 3-5 business days</li>
                                                     <li>• <strong>Express Delivery:</strong> 1-2 business days (additional charges may apply)</li>
-                                                    <li>• <strong>Free Shipping:</strong> Available on orders over Rs 10,000</li>
                                                     <li>• <strong>Nationwide Delivery:</strong> We deliver across Pakistan</li>
                                                 </ul>
                                             </div>
