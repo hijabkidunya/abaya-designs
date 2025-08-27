@@ -129,6 +129,14 @@ export async function POST(req) {
       };
     });
 
+    // Determine payment status based on payment method and confirmation
+    let paymentStatus = "pending";
+    if (data.paymentMethod === "bank" && data.bankConfirmed) {
+      paymentStatus = "paid";
+    } else if (data.paymentMethod === "cod") {
+      paymentStatus = "pending";
+    }
+
     // Save order to database
     const order = await Order.create({
       user: userId, // Use the determined userId
@@ -146,7 +154,8 @@ export async function POST(req) {
         country: data.country,
       },
       paymentMethod: data.paymentMethod,
-      paymentStatus: "pending",
+      selectedBankAccount: data.selectedBankAccount || "ubl",
+      paymentStatus: paymentStatus,
       orderStatus: "pending",
       total: data.total,
     })

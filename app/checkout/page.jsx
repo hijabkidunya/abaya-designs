@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
-import { updateField, validateForm, submitOrder, resetCheckout, markTouched } from "@/lib/features/checkoutSlice"
+import { updateField, submitOrder, resetCheckout, markTouched, validateForm } from "@/lib/features/checkoutSlice"
 import { useEffect, useState } from "react"
 import { formatPrice } from "@/lib/utils"
 import { clearCartAsync } from "@/lib/features/cart/cartSlice"
@@ -111,10 +111,22 @@ export default function CheckoutPage() {
   }
 
   const handleNextStep = (step) => {
+    // First validate the form
     dispatch(validateForm())
-    if (Object.keys(errors).length === 0) {
+
+    // Check if all required fields are filled
+    const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'address', 'city', 'province', 'zipCode', 'country']
+    const missingFields = requiredFields.filter(field => !checkout.form[field] || !checkout.form[field].trim())
+
+    if (missingFields.length === 0) {
       setCurrentStep(step)
       updateStepInUrl(step)
+    } else {
+      console.log('Missing required fields:', missingFields)
+      // Mark missing fields as touched to show errors
+      missingFields.forEach(field => {
+        dispatch(markTouched(field))
+      })
     }
   }
 
@@ -412,22 +424,54 @@ export default function CheckoutPage() {
                       )}
                       {form.paymentMethod === "bank" && (
                         <div className="mt-6 space-y-4">
-                          <div className="bg-muted/40 rounded-lg p-4 border border-border dark:border-zinc-700">
-                            <h4 className="font-semibold mb-2">Bank Account Details</h4>
-                            <div className="text-sm">
-                              <div><span className="font-medium">Bank Name:</span> United Bank Limited (UBL)</div>
-                              <div><span className="font-medium">Account Title:</span> Ali Hassan</div>
-                              <div><span className="font-medium">Account Number:</span> 0139297676263</div>
-                              {/* <div><span className="font-medium">IBAN:</span> PK65MEZN0098200102356010</div> */}
+                          <div className="space-y-4">
+                            <div>
+                              <h4 className="font-semibold mb-3">Select Bank Account</h4>
+                              <div className="space-y-3">
+                                <div className="flex items-center gap-3">
+                                  <input
+                                    type="radio"
+                                    id="ubl"
+                                    name="bankAccount"
+                                    value="ubl"
+                                    checked={form.selectedBankAccount === "ubl"}
+                                    onChange={() => handleInputChange("selectedBankAccount", "ubl")}
+                                    className="accent-primary h-4 w-4"
+                                  />
+                                  <Label htmlFor="ubl" className="text-sm cursor-pointer">United Bank Limited (UBL)</Label>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                  <input
+                                    type="radio"
+                                    id="easypaisa"
+                                    name="bankAccount"
+                                    value="easypaisa"
+                                    checked={form.selectedBankAccount === "easypaisa"}
+                                    onChange={() => handleInputChange("selectedBankAccount", "easypaisa")}
+                                    className="accent-primary h-4 w-4"
+                                  />
+                                  <Label htmlFor="easypaisa" className="text-sm cursor-pointer">Easypaisa</Label>
+                                </div>
+                              </div>
                             </div>
-                            <div className="h-[0.5px] bg-gray-300 w-full my-2"></div>
-                            <div className="text-sm">
-                              <div><span className="font-medium">Bank Name:</span> Easypaisa</div>
-                              <div><span className="font-medium">Account Title:</span> Ali Hassan</div>
-                              <div><span className="font-medium">Account Number:</span> 03496098882</div>
-                              {/* <div><span className="font-medium">IBAN:</span> PK65MEZN0098200102356010</div> */}
+
+                            <div className="bg-muted/40 rounded-lg p-4 border border-border dark:border-zinc-700">
+                              <h4 className="font-semibold mb-2">Bank Account Details</h4>
+                              {form.selectedBankAccount === "ubl" ? (
+                                <div className="text-sm">
+                                  <div><span className="font-medium">Bank Name:</span> United Bank Limited (UBL)</div>
+                                  <div><span className="font-medium">Account Title:</span> Ali Hassan</div>
+                                  <div><span className="font-medium">Account Number:</span> 0139297676263</div>
+                                </div>
+                              ) : (
+                                <div className="text-sm">
+                                  <div><span className="font-medium">Bank Name:</span> Easypaisa</div>
+                                  <div><span className="font-medium">Account Title:</span> Ali Hassan</div>
+                                  <div><span className="font-medium">Account Number:</span> 03496098882</div>
+                                </div>
+                              )}
+                              <p className="mt-2 text-xs text-muted-foreground">Please transfer the total amount to the selected account and keep your payment receipt. Your order will be processed after payment confirmation.</p>
                             </div>
-                            <p className="mt-2 text-xs text-muted-foreground">Please transfer the total amount to the above account and keep your payment receipt. Your order will be processed after payment confirmation.</p>
                           </div>
                           <div className="flex items-center gap-2">
                             <input
@@ -486,10 +530,19 @@ export default function CheckoutPage() {
                             <>
                               <p>Bank Transfer / Card Payment</p>
                               <div className="mt-2">
-                                <div><span className="font-medium">Bank Name:</span> HBL</div>
-                                <div><span className="font-medium">Account Title:</span> Abaya Designs</div>
-                                <div><span className="font-medium">Account Number:</span> 1234-5678-9012-3456</div>
-                                <div><span className="font-medium">IBAN:</span> PK12 HABB 0000 1234 5678 9012</div>
+                                {form.selectedBankAccount === "ubl" ? (
+                                  <>
+                                    <div><span className="font-medium">Bank Name:</span> United Bank Limited (UBL)</div>
+                                    <div><span className="font-medium">Account Title:</span> Ali Hassan</div>
+                                    <div><span className="font-medium">Account Number:</span> 0139297676263</div>
+                                  </>
+                                ) : (
+                                  <>
+                                    <div><span className="font-medium">Bank Name:</span> Easypaisa</div>
+                                    <div><span className="font-medium">Account Title:</span> Ali Hassan</div>
+                                    <div><span className="font-medium">Account Number:</span> 03496098882</div>
+                                  </>
+                                )}
                               </div>
                             </>
                           )}

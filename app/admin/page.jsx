@@ -515,7 +515,14 @@ export default function AdminDashboard() {
                                                 <td className="p-3">{order.user?.email || order.user}</td>
                                                 <td className="p-3">{new Date(order.createdAt).toLocaleString()}</td>
                                                 <td className="p-3"><Badge variant={statusBadgeVariant(order.orderStatus)}>{order.orderStatus.charAt(0).toUpperCase() + order.orderStatus.slice(1)}</Badge></td>
-                                                <td className="p-3">{order.paymentStatus.charAt(0).toUpperCase() + order.paymentStatus.slice(1)}</td>
+                                                <td className="p-3">
+                                                    <Badge
+                                                        variant={order.paymentStatus === "paid" ? "success" : order.paymentStatus === "failed" ? "destructive" : "secondary"}
+                                                        className={order.paymentStatus === "paid" ? "bg-green-100 text-green-800 hover:bg-green-100" : order.paymentStatus === "failed" ? "bg-red-100 text-red-800 hover:bg-red-100" : ""}
+                                                    >
+                                                        {order.paymentStatus.charAt(0).toUpperCase() + order.paymentStatus.slice(1)}
+                                                    </Badge>
+                                                </td>
                                                 <td className="p-3 font-semibold">{formatPrice(order.total)}</td>
                                                 <td className="p-3">
                                                     <Button size="sm" variant="outline" onClick={() => openOrderModal(order)}>View</Button>

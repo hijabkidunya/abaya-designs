@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
 import Image from "next/image"
 import { useDispatch, useSelector } from "react-redux"
-import { Star, Heart, ShoppingCart, Minus, Plus, Share2, Truck, Shield, RotateCcw, MessageCircle } from "lucide-react"
+import { Star, Heart, ShoppingCart, Minus, Plus, Share2, Truck, Shield, RotateCcw, MessageCircle, CreditCard } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
@@ -381,30 +381,38 @@ export default function ProductDetailPage() {
                         </Button>
                     </div>
 
-                    {/* Features */}
+                    {/* Payment Information */}
                     <Card>
                         <CardContent className="p-4">
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                            <h3 className="font-semibold mb-3 text-base">Payment Methods</h3>
+                            <div className="space-y-3 text-sm">
                                 <div className="flex items-center gap-2">
-                                    <Truck className="h-4 w-4 text-primary" />
-                                    <span>Free shipping on orders over Rs 10,000</span>
+                                    <CreditCard className="h-4 w-4 text-primary" />
+                                    <span className="font-medium">Cash on Delivery (COD)</span>
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <Shield className="h-4 w-4 text-primary" />
-                                    <span>Secure payment options</span>
+                                    <span className="font-medium">Bank Transfer / Card Payment</span>
                                 </div>
-                                <div className="flex items-center gap-2">
-                                    <RotateCcw className="h-4 w-4 text-primary" />
-                                    <span>3-day return policy</span>
+                            </div>
+                            <div className="mt-4 p-3 bg-muted/40 rounded-lg border border-border dark:border-zinc-700">
+                                <h4 className="font-semibold mb-2 text-sm">Bank Account Details</h4>
+                                <div className="space-y-1 text-xs text-muted-foreground">
+                                    <div><span className="font-medium">Bank Name:</span> United Bank Limited (UBL)</div>
+                                    <div><span className="font-medium">Account Title:</span> Ali Hassan</div>
+                                    <div><span className="font-medium">Account Number:</span> 0139297676263</div>
                                 </div>
+                                <div className="mt-2 space-y-1 text-xs text-muted-foreground">
+                                    <div><span className="font-medium">Alternative:</span> Easypaisa</div>
+                                    <div><span className="font-medium">Account Title:</span> Ali Hassan</div>
+                                    <div><span className="font-medium">Account Number:</span> 03496098882</div>
+                                </div>
+                                <p className="mt-2 text-xs text-amber-600 dark:text-amber-400 font-medium">
+                                    After payment, please send screenshot of receipt to WhatsApp for order confirmation.
+                                </p>
                             </div>
                         </CardContent>
                     </Card>
-                    {/* Product Details */}
-                    {/* <div className="text-sm text-muted-foreground">
-                        <p>SKU: {product.sku}</p>
-                        <p>Category: {product.category}</p>
-                    </div> */}
                 </div>
             </div>
             {/* Product Details Tabs */}
@@ -559,22 +567,67 @@ export default function ProductDetailPage() {
                     <TabsContent value="shipping" className="mt-6">
                         <Card>
                             <CardContent className="p-6">
-                                <div className="space-y-4">
+                                <div className="space-y-6">
                                     <div>
-                                        <h3 className="font-semibold mb-2">Shipping Information</h3>
-                                        <ul className="space-y-1 text-sm text-muted-foreground">
-                                            <li>• Free shipping on orders over Rs 10,000</li>
-                                            <li>• Standard delivery: 3-5 business days</li>
-                                            <li>• International shipping available</li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <h3 className="font-semibold mb-2">Return Policy</h3>
-                                        <ul className="space-y-1 text-sm text-muted-foreground">
-                                            <li>• 3-day return window from delivery date</li>
-                                            <li>• Items must be in original condition</li>
-                                            <li>• Return shipping costs may apply</li>
-                                        </ul>
+                                        <h3 className="font-semibold mb-3 text-lg">Payment & Shipping Information</h3>
+                                        <div className="space-y-4">
+                                            <div className="bg-muted/40 rounded-lg p-4 border border-border dark:border-zinc-700">
+                                                <h4 className="font-semibold mb-3 text-base">Available Payment Methods</h4>
+                                                <div className="space-y-3">
+                                                    <div className="flex items-center gap-3">
+                                                        <CreditCard className="h-5 w-5 text-primary" />
+                                                        <div>
+                                                            <p className="font-medium">Cash on Delivery (COD)</p>
+                                                            <p className="text-sm text-muted-foreground">Pay when you receive your order</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex items-center gap-3">
+                                                        <Shield className="h-5 w-5 text-primary" />
+                                                        <div>
+                                                            <p className="font-medium">Bank Transfer / Card Payment</p>
+                                                            <p className="text-sm text-muted-foreground">Pay in advance for faster processing</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="bg-blue-50 dark:bg-blue-950/30 rounded-lg p-4 border border-blue-200 dark:border-blue-800">
+                                                <h4 className="font-semibold mb-3 text-base text-blue-800 dark:text-blue-200">Bank Account Details</h4>
+                                                <div className="space-y-3">
+                                                    <div className="p-3 bg-white dark:bg-zinc-800 rounded border">
+                                                        <h5 className="font-medium text-sm mb-2">Primary Account - UBL Bank</h5>
+                                                        <div className="space-y-1 text-sm text-muted-foreground">
+                                                            <div><span className="font-medium">Bank Name:</span> United Bank Limited (UBL)</div>
+                                                            <div><span className="font-medium">Account Title:</span> Ali Hassan</div>
+                                                            <div><span className="font-medium">Account Number:</span> 0139297676263</div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="p-3 bg-white dark:bg-zinc-800 rounded border">
+                                                        <h5 className="font-medium text-sm mb-2">Alternative - Easypaisa</h5>
+                                                        <div className="space-y-1 text-sm text-muted-foreground">
+                                                            <div><span className="font-medium">Account Title:</span> Ali Hassan</div>
+                                                            <div><span className="font-medium">Account Title:</span> Ali Hassan</div>
+                                                            <div><span className="font-medium">Account Number:</span> 03496098882</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="mt-4 p-3 bg-amber-50 dark:bg-amber-950/30 rounded border border-amber-200 dark:border-amber-800">
+                                                    <p className="text-sm text-amber-800 dark:text-amber-200 font-medium">
+                                                        <strong>Important:</strong> After making the payment, please send a screenshot of your payment receipt to our WhatsApp number (+923496098882) for order confirmation and faster processing.
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div className="bg-green-50 dark:bg-green-950/30 rounded-lg p-4 border border-green-200 dark:border-green-800">
+                                                <h4 className="font-semibold mb-2 text-base text-green-800 dark:text-green-200">Shipping Information</h4>
+                                                <ul className="space-y-2 text-sm text-green-700 dark:text-green-300">
+                                                    <li>• <strong>Standard Delivery:</strong> 3-5 business days</li>
+                                                    <li>• <strong>Express Delivery:</strong> 1-2 business days (additional charges may apply)</li>
+                                                    <li>• <strong>Free Shipping:</strong> Available on orders over Rs 10,000</li>
+                                                    <li>• <strong>Nationwide Delivery:</strong> We deliver across Pakistan</li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </CardContent>

@@ -33,7 +33,12 @@ export default function OrderDetailsModal({ open, onOpenChange, order, onOrderSt
                                 </div>
                                 <div className="flex gap-2">
                                     <Badge variant={statusBadgeVariant(order.orderStatus)}>{order.orderStatus.charAt(0).toUpperCase() + order.orderStatus.slice(1)}</Badge>
-                                    <Badge variant="secondary">{order.paymentStatus.charAt(0).toUpperCase() + order.paymentStatus.slice(1)}</Badge>
+                                    <Badge
+                                        variant={order.paymentStatus === "paid" ? "success" : order.paymentStatus === "failed" ? "destructive" : "secondary"}
+                                        className={order.paymentStatus === "paid" ? "bg-green-100 text-green-800 hover:bg-green-100" : order.paymentStatus === "failed" ? "bg-red-100 text-red-800 hover:bg-red-100" : ""}
+                                    >
+                                        {order.paymentStatus.charAt(0).toUpperCase() + order.paymentStatus.slice(1)}
+                                    </Badge>
                                 </div>
                             </div>
                             <div className="mb-2">
@@ -72,6 +77,18 @@ export default function OrderDetailsModal({ open, onOpenChange, order, onOrderSt
                                             </div>
                                         </div>
                                     ))}
+                                </div>
+                            </div>
+                            <div className="mb-2">
+                                <div className="font-semibold">Payment Method:</div>
+                                <div className="text-sm text-muted-foreground">
+                                    {order.paymentMethod === "cod" ? "Cash on Delivery (COD)" : "Bank Transfer / Card Payment"}
+                                    {order.paymentMethod === "bank" && order.selectedBankAccount && (
+                                        <div className="mt-1">
+                                            <span className="font-medium">Selected Account: </span>
+                                            {order.selectedBankAccount === "ubl" ? "United Bank Limited (UBL)" : "Easypaisa"}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                             <div className="mb-2">
