@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
 import Image from "next/image"
 import { useDispatch, useSelector } from "react-redux"
-import { Star, Heart, ShoppingCart, Minus, Plus, Share2, Truck, Shield, RotateCcw } from "lucide-react"
+import { Star, Heart, ShoppingCart, Minus, Plus, Share2, Truck, Shield, RotateCcw, MessageCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
@@ -16,6 +16,7 @@ import { addToWishlistAsync, removeFromWishlistAsync } from "@/lib/features/wish
 import ProductCard from "@/components/ui/ProductCard"
 import { toast } from "sonner";
 import AddToCartModal from "@/components/ui/AddToCartModal";
+import ShareModal from "@/components/ui/ShareModal";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -35,6 +36,7 @@ export default function ProductDetailPage() {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
     const [modalOpen, setModalOpen] = useState(false);
+    const [shareModalOpen, setShareModalOpen] = useState(false);
 
     const dispatch = useDispatch()
     const wishlistItems = useSelector((state) => state.wishlist.items)
@@ -179,6 +181,39 @@ export default function ProductDetailPage() {
         } catch {
             toast.error("Wishlist action failed");
         }
+    }
+
+    // WhatsApp contact function
+    const handleWhatsAppContact = () => {
+        const phoneNumber = "+923496098882" // Replace with your actual WhatsApp number
+        const productName = product.name
+        const productPrice = Number(product.price).toLocaleString("en-PK")
+        const productUrl = window.location.href
+
+        let message = `Hi! I'm interested in ordering this product:\n\n`
+        message += `*${productName}*\n`
+        message += `Price: Rs ${productPrice}\n`
+        message += `Product Link: ${productUrl}\n\n`
+
+        if (selectedSize) {
+            message += `Size: ${selectedSize}\n`
+        }
+        if (selectedColor) {
+            message += `Color: ${selectedColor}\n`
+        }
+        if (quantity > 1) {
+            message += `Quantity: ${quantity}\n`
+        }
+
+        message += `\nPlease provide me with ordering details and payment information.`
+
+        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
+        window.open(whatsappUrl, '_blank')
+    }
+
+    // Share function
+    const handleShare = () => {
+        setShareModalOpen(true)
     }
 
     if (loading) {
@@ -328,10 +363,24 @@ export default function ProductDetailPage() {
                         <Button variant="outline" size="lg" onClick={handleWishlistToggle}>
                             <Heart className={`h-4 w-4 ${isInWishlist ? "fill-red-500 text-red-500" : ""}`} />
                         </Button>
-                        <Button variant="outline" size="lg">
+                        <Button variant="outline" size="lg" onClick={handleShare}>
                             <Share2 className="h-4 w-4" />
                         </Button>
                     </div>
+
+                    {/* WhatsApp Contact Button */}
+                    <div className="flex gap-4">
+                        <Button
+                            size="lg"
+                            className="flex-1 bg-green-600 hover:bg-green-700 text-white border-green-600 hover:border-green-700"
+                            onClick={handleWhatsAppContact}
+                            disabled={product.stock === 0}
+                        >
+                            <MessageCircle className="h-4 w-4 mr-2" />
+                            {product.stock === 0 ? "Out of Stock" : "Order on WhatsApp"}
+                        </Button>
+                    </div>
+
                     {/* Features */}
                     <Card>
                         <CardContent className="p-4">
@@ -548,6 +597,11 @@ export default function ProductDetailPage() {
                 onClose={() => setModalOpen(false)}
                 onConfirm={handleModalConfirm}
                 loading={false}
+            />
+            <ShareModal
+                isOpen={shareModalOpen}
+                onClose={() => setShareModalOpen(false)}
+                product={product}
             />
         </div>
     )
