@@ -6,9 +6,7 @@ import { Button } from "@/components/ui/button";
 const categories = [
     { label: "All", value: "all" },
     { label: "Abayas", value: "abayas" },
-    { label: "Hijabs", value: "hijabs" },
-    { label: "Clothing", value: "clothing" },
-    { label: "Accessories", value: "accessories" },
+    { label: "Maxi Dresses", value: "maxi-dresses" },
 ];
 
 export default function AllProductsSection() {
